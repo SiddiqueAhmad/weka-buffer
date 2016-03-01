@@ -1,0 +1,26 @@
+{
+  "name": "weka-buffer",
+  "version": "1.0.0",
+  "description": "extraction of data values from buffer\r to run this file install nodejs https://nodejs.org/download/release/v0.12.10/node-v0.12.10-x86.msi",
+  "main": "filerader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SiddiqueAhmad/weka-buffer.git"
+  },
+  "keywords": [
+    "weka"
+  ],
+  "author": "Siddique Ahmad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SiddiqueAhmad/weka-buffer/issues"
+  },
+  "homepage": "https://github.com/SiddiqueAhmad/weka-buffer#readme",
+  "dependencies": {
+    "async": "^1.5.2",
+    "chokidar": "^1.4.3"
+  }
+}

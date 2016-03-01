@@ -1,8 +1,8 @@
 // file reader util
-var fs = require('fs');
 var results = [];
-var csv = [];
-function readLines(input, func) {
+var csv = [];  
+
+function readLines(input, func, fileNameprefix, callback) {
   var remaining = '';
 
   input.on('data', function(data) {
@@ -24,7 +24,24 @@ function readLines(input, func) {
     	results.forEach(function (data, i) {
   csv.push(data.join('\t'));
 });
-    	console.log(csv.join('\n'))
+    	
+      var timestamp = Number(new Date()) + 0;
+      fs.writeFile("output/"+fileNameprefix+"."+timestamp, csv.join('\n').toString(), function(err) {
+    if(err) {
+       console.log(err);
+        
+        
+    } else {
+
+      console.log("The file was saved!");  
+    }
+
+    
+     callback();
+    
+
+}); 
+
     }
 
   });
@@ -63,9 +80,40 @@ function func(data) {
 
 
 
-var input = fs.createReadStream('ARIR/NaiveBayes.txt');
-readLines(input, func);
+
 // var input = fs.createReadStream('AR/J48.txt');
 // readLines(input, func);
 
+var chokidar = require('chokidar');
+var fs = require('fs');
+var async = require('async');
 
+var q = async.queue(function (task, callback) {
+    
+ results = [];
+ csv = [];  
+var path = task.path;
+var input = fs.createReadStream(path);
+var fileNameprefix = path.replace("inputFiles\\", '')
+readLines(input, func, fileNameprefix, callback);
+
+
+    
+}, 1);
+
+q.drain = function() {
+    console.log('all files have been processed');
+}
+
+// One-liner for current directory, ignores .dotfiles
+chokidar.watch('inputFiles', {ignored: /[\/\\]\./, persisitent:true}).on('add', function(path, event)  {
+  
+
+q.push({path: path}, function (err) {
+
+    console.log('finished processing file' , err);
+});
+
+
+
+});
