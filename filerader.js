@@ -107,13 +107,9 @@ q.drain = function() {
 
 // One-liner for current directory, ignores .dotfiles
 chokidar.watch('inputFiles', {ignored: /[\/\\]\./, persisitent:true}).on('add', function(path, event)  {
-  
 
 q.push({path: path}, function (err) {
 
-    console.log('finished processing file' , err);
-});
-
-
-
+      console.log('finished processing file' , err);
+  });
 });
